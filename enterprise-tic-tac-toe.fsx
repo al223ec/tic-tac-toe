@@ -9,9 +9,10 @@ module TicTacToeDomain =
     type VertPosition = Top | VCenter | Bottom
     type CellPosition = HorizPosition * VertPosition
 
+    type Player = PlayerO | PlayerX
+
     type CellState =
-        | X
-        | O
+        | Played of Player
         | Empty
 
     type Cell = {
@@ -22,14 +23,28 @@ module TicTacToeDomain =
     type PlayerXPos = PlayerXPos of CellPosition
     type PlayerOPos = PlayerOPos of CellPosition
 
+    type ValidMovesForPlayerX  = PlayerXPos list
+    type ValidMovesForPlayerO  = PlayerOPos list
+
     // the private Game state, only a placeholder
     type GameState = exn
 
+    // the move result
+    type MoveResult =
+        | PlayerXToMove of GameState * ValidMovesForPlayerX
+        | PlayerOToMove of GameState * ValidMovesForPlayerO
+        | GameWon of GameState * Player
+        | GameTied of GameState
+
     // the use-cases
-    type InitGame = unit -> GameState
-    type InitialGameState = GameState
-    type PlayerXMoves = GameState * PlayerXPos -> GameState
-    type PlayerOMoves = GameState * PlayerOPos -> GameState
+    type NewGame =
+        GameState * MoveResult
+    type PlayerXMoves =
+        GameState * PlayerXPos -> // input
+            GameState * MoveResult // output
+    type PlayerOMoves =
+        GameState * PlayerOPos ->
+            GameState * MoveResult
 
     // helper funciton
     type GetCells = GameState -> Cell list
@@ -37,5 +52,4 @@ module TicTacToeDomain =
     // type UserAction =
     //     | PlayerXMoves
     //     | PlayerOMoves
-
     // type Move = UserAction * GameState -> GameState
