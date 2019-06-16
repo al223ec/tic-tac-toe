@@ -31,10 +31,10 @@ module TicTacToeDomain =
 
     // the move result
     type MoveResult =
-        | PlayerXToMove of GameState * ValidMovesForPlayerX
-        | PlayerOToMove of GameState * ValidMovesForPlayerO
-        | GameWon of GameState * Player
-        | GameTied of GameState
+        | PlayerXToMove of ValidMovesForPlayerX
+        | PlayerOToMove of ValidMovesForPlayerO
+        | GameWon of Player
+        | GameTied
 
     // the use-cases
     type NewGame =
